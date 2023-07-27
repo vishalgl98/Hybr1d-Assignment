@@ -17,7 +17,7 @@ const register = async ( req, res ) => {
             username : username,
             role : role
         });
-        const token = jwt.sign({email : result.email, id : result._id}, SECRET_KEY);
+        const token = jwt.sign({email : result.email, id : result._id, role : result.role}, SECRET_KEY);
         res.json({user : result, token : token});
     }
     catch (error){
@@ -36,7 +36,7 @@ const login = async ( req, res ) => {
         if(!matchedPassword){
             return res.json({ message : "Wrong Password" });
         }
-        const token = jwt.sign({email : existingUser.email, id : existingUser._id}, SECRET_KEY);
+        const token = jwt.sign({email : existingUser.email, id : existingUser._id, role : existingUser.role}, SECRET_KEY);
         res.json({user : existingUser, token : token});
     }
     catch (error) {
