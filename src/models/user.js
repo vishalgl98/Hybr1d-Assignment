@@ -1,4 +1,3 @@
-const { strict } = require("assert");
 const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema({
     username : {
@@ -17,6 +16,6 @@ const UserSchema = mongoose.Schema({
         type : String,
         required : true
     }
-}, {timestamps : true});
+});
 
 module.exports = mongoose.model("User", UserSchema); 
