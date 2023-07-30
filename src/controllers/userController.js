@@ -1,4 +1,4 @@
-const userModel = require("../models/user");
+const userModel = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "HYBR1D";
@@ -42,7 +42,6 @@ const login = async ( req, res ) => {
     catch (error) {
         console.log(error);
     }
-
 };
 
 module.exports = { register, login };
