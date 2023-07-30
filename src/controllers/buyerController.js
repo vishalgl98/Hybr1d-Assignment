@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const listOfSellers = async (req, res) => {
     try {
       const sellers = await User.find({ role: 'seller' }, '_id username');
+      console.log(sellers, ' List of all sellers ');
       res.json(sellers);
     } catch (error) {
       res.json({ message: 'An error occurred while fetching sellers' });
@@ -19,6 +20,7 @@ const sellerCatalog = async (req, res) => {
       if (!catalog) {
         return res.json({ message: 'Seller not found or catalog is empty' });
       }
+        console.log(catalog, `seller ${seller_id} catalog`);
         res.json(catalog.products);
     } catch (error) {
         res.json({ message: 'An error occurred while fetching sellers catalog' });
@@ -46,6 +48,7 @@ const createOrder = async (req, res) => {
       products : catalog.products
     });
     await order.save();
+    console.log('order created', order);
     res.json({ message: 'Order created successfully', order });
   } catch (error) {
     res.json({ message: 'An error occurred while creating the order' });
