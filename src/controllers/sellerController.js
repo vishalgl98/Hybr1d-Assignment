@@ -1,26 +1,34 @@
-const userModel = require("../models/user");
-const bcrypt = require("bcrypt");
+const User = require('../models/User');
+const Catalog = require('../models/Catalog');
+const Product = require('../models/Product');
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "HYBR1D";
+const Order = require('../models/Order');
 
-const createCatalog = async ( req, res ) => {
-    const { username, email, password, role } = req.body;
-    try{
-        res.json({message : "in seller createcatalog"});
+const createCatalog = async (req, res) => {
+  try {
+    const { sellerId, products } = req.body;
+    const seller = await User.findOne({ _id: sellerId, role: 'seller' });
+    if (!seller) {
+      return res.json({ message: 'Seller not found' });
     }
-    catch (error){
-        console.log(error);
-    }
+    (await Catalog.create({ sellerId, products })).save();
+    res.json({ message: 'Catalog created successfully' });
+  } catch (error) {
+    res.json(error);
+  }
 };
 
-const orders = async ( req, res ) => {
-    const { password, email } = req.body;
-    try{
-        console.log("in seller orders");
-    }
-    catch (error) {
-        console.log(error);
-    }
+const orders = async (req, res) => {
+  try {
+    let token = req.headers.authorization;
+    token = token.split(' ')[1];
+    const decoded = jwt.verify(token, "HYBR1D");
+    const sellerId = decoded.id;
+    const orders = await Order.find({ sellerId: sellerId });
+    res.json(orders);
+  } catch (error) {
+    res.json({ message: 'An error occurred while fetching orders' });
+  }
 };
 
 module.exports = { createCatalog, orders };
