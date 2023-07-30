@@ -25,6 +25,7 @@ const orders = async (req, res) => {
     const decoded = jwt.verify(token, "HYBR1D");
     const sellerId = decoded.id;
     const orders = await Order.find({ sellerId: sellerId });
+    console.log(orders, 'total orders');
     res.json(orders);
   } catch (error) {
     res.json({ message: 'An error occurred while fetching orders' });

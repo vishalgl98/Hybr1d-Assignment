@@ -14,10 +14,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", (req, res) => {
-    res.send("Hey");
-});
-
 mongoose.connect("mongodb+srv://root:root@cluster0.mwczlh4.mongodb.net/?retryWrites=true&w=majority")
 .then(() => {
     app.listen(5000, () => {
