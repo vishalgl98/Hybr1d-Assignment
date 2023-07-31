@@ -6,7 +6,11 @@ const Order = require('../models/Order');
 
 const createCatalog = async (req, res) => {
   try {
-    const { sellerId, products } = req.body;
+    let token = req.headers.authorization;
+    token = token.split(' ')[1];
+    const decoded = jwt.verify(token, "HYBR1D");
+    const sellerId = decoded.id;
+    const { products } = req.body;
     const seller = await User.findOne({ _id: sellerId, role: 'seller' });
     if (!seller) {
       return res.json({ message: 'Seller not found' });
